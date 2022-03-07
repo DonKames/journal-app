@@ -4,11 +4,17 @@
     color: white;
     cursor: pointer;
     font-size: 12px;
-    margin-bottom: 5px;
+    margin-bottom: 0px;
     padding: 7px 10px 7px 10px;
+
+    transition: color .3s ease;
 
     &:focus{
         outline: none;
+    }
+
+    &:hover{
+        color: darken($color: white, $amount: 20);
     }
 }
 
@@ -22,6 +28,15 @@
 
     &:hover{
         background-color: darken($color: $primary, $amount: 10);
+    }
+}
+
+.btn-danger{
+    background-color: red;
+
+    transition: .3s ease;
+    &:hover{
+        background-color: darken($color: red, $amount: 10);
     }
 }
 
