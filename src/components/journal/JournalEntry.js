@@ -55,7 +55,7 @@ export const JournalEntry = (note) => {
 
             <div className='journal__entry-date-box'>
                 <span>{ noteDate.format('dddd') }</span>
-                <h4>{ noteDate.format('Do') }</h4>
+                <h4>{ noteDate.format('DD') }</h4>
             </div>
         </div>
     )
