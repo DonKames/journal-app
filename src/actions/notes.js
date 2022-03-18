@@ -5,7 +5,6 @@ import { fileUpload } from "../helpers/fileUpload";
 import { loadNotes } from "../helpers/loadNotes";
 import { types } from "../types/types";
 
-// KaMEs-journal
 
 export const startNewNote = () => {
     return async (dispatch, getState) => {
@@ -23,13 +22,23 @@ export const startNewNote = () => {
 
         console.log(docRef)
 
-        dispatch(activeNote(docRef.id, newNote));
+        dispatch( activeNote( docRef.id, newNote) );
+        dispatch( addNewNote( docRef.id, newNote) );
     };
 };
 
 
 export const activeNote = (id, note) => ({
     type: types.notesActive,
+    payload: {
+        id,
+        ...note
+    }
+});
+
+
+export const addNewNote = ( id, note ) => ({
+    type: types.notesAddNew,
     payload: {
         id,
         ...note
@@ -58,13 +67,13 @@ export const startSaveNote = (note) => {
         const noteToFirestore = { ...note };
         delete noteToFirestore.id;
 
-        const noteRef = doc(db, uid, "journal", "notes", note.id);
+        const noteRef = doc( db, uid, "journal", "notes", note.id );
 
-        await updateDoc(noteRef, noteToFirestore);
+        await updateDoc( noteRef, noteToFirestore );
 
-        dispatch(refreshNote(note.id, noteToFirestore));
+        dispatch( refreshNote( note.id, noteToFirestore ) );
 
-        Swal.fire('Saved', note.title, 'success');
+        Swal.fire( 'Saved', note.title, 'success' );
     }
 };
 
@@ -95,7 +104,7 @@ export const startUploadImg = (file) => {
             showConfirmButton: false
         });
 
-        const fileUrl = await fileUpload(file);
+        const fileUrl = await fileUpload( file );
 
         Swal.close();
 
@@ -120,4 +129,8 @@ export const startDeleteImg = ( noteId ) => {
 export const deleteNote = ( noteId ) => ({
     type: types.notesDelete,
     payload: noteId
+});
+
+export const notesLogout = () => ({
+    type: types.notesLogoutCleaning
 });
