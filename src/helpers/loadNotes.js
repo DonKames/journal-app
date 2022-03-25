@@ -8,17 +8,17 @@ export const loadNotes = async (uid) => {
     const q = query( notesRef, orderBy( "date", 'desc' ) );
     const colle = await getDocs( q );
     const notes = [];
-    console.log(colle);
+    //console.log(colle);
     colle.forEach((doc) => {
         // doc.data() is never undefined for query doc snapshots
-        console.log(doc.data().date)
+        //console.log(doc.data().date)
         notes.push({
             id: doc.id,
             ...doc.data()
         });
     });
 
-    console.log(notes)
+    //console.log(notes)
     
     return notes;
 }

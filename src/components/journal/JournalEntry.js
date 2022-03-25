@@ -3,7 +3,6 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { activeNote } from '../../actions/notes';
 import dayjs from 'dayjs';
-import 'dayjs/locale/es-mx';
 
 export const JournalEntry = (note) => {
     const { id, date, title, body, url } = note;

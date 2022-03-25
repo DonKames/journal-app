@@ -17,13 +17,15 @@ export const startNewNote = () => {
             date: new Date().getTime()
         };
 
-
-        const docRef = await addDoc(collection(db, uid, 'journal', 'notes'), newNote);
-
-        console.log(docRef)
-
-        dispatch( activeNote( docRef.id, newNote) );
-        dispatch( addNewNote( docRef.id, newNote) );
+        try {
+            const docRef = await addDoc(collection(db, uid, 'journal', 'notes'), newNote);
+    
+            dispatch( activeNote( docRef.id, newNote) );
+            dispatch( addNewNote( docRef.id, newNote) );
+            
+        } catch (error) {
+            console.log(error)
+        }
     };
 };
 
@@ -67,11 +69,17 @@ export const startSaveNote = (note) => {
         const noteToFirestore = { ...note };
         delete noteToFirestore.id;
 
-        const noteRef = doc( db, uid, "journal", "notes", note.id );
+        try {
+            
+            const noteRef = doc( db, uid, "journal", "notes", note.id );
+    
+            await updateDoc( noteRef, noteToFirestore );
+    
+            dispatch( refreshNote( note.id, noteToFirestore ) );
 
-        await updateDoc( noteRef, noteToFirestore );
-
-        dispatch( refreshNote( note.id, noteToFirestore ) );
+        } catch (error) {
+            console.log(error)
+        }
 
         Swal.fire( 'Saved', note.title, 'success' );
     }
@@ -109,6 +117,7 @@ export const startUploadImg = (file) => {
         Swal.close();
 
         activeNote.url = fileUrl;
+        console.log(activeNote)
 
         dispatch( startSaveNote( activeNote ));
     }
